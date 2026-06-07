@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvImageContainer"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/imgArticle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                tools:ignore="ContentDescription" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nutrisi"
+            android:textSize="10sp"
+            android:textColor="#E65100"
+            android:background="@drawable/bg_badge_orange"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/cvImageContainer"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Manfaat Kesehatan Pisang..."
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_dark"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="@id/tvCategory"
+            app:layout_constraintTop_toBottomOf="@id/tvCategory"
+            app:layout_constraintEnd_toStartOf="@id/btnArrow" />
+
+        <TextView
+            android:id="@+id/tvSnippet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tahukah Anda bahwa pisang hijau..."
+            android:textSize="12sp"
+            android:textColor="@color/text_gray"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 hari lalu"
+            android:textSize="10sp"
+            android:textColor="@color/text_gray"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tvSnippet"
+            app:layout_constraintTop_toBottomOf="@id/tvSnippet" />
+
+        <ImageView
+            android:id="@+id/btnArrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:tint="@color/text_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

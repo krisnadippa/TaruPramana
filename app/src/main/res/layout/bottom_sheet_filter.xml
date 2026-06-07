@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter Pencarian"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvArticleCategoryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Jenis Artikel"
+        android:textColor="#B0B0B0"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <LinearLayout
+        android:id="@+id/containerArticleTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tvArticleCategoryLabel">
+
+        <CheckBox
+            android:id="@+id/cbKategoriTanaman"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tanaman"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbKategoriResep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resep"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvCategoryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Kategori Bahan"
+        android:textColor="#B0B0B0"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerArticleTypes" />
+
+    <LinearLayout
+        android:id="@+id/containerChecks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tvCategoryLabel">
+
+        <CheckBox
+            android:id="@+id/cbDaun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daun"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbBatang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Batang"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbBunga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bunga"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbAkar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Akar"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbBuah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buah"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintTop_toBottomOf="@id/containerChecks"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/outline_red"
+            android:text="Hapus"
+            android:textAllCaps="false"
+            android:textColor="#E53935"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnApply"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/solid_green"
+            android:text="Pasang"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

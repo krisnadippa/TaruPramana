@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="nature_primary">#1B3826</color>
+    <color name="nature_accent">#4CAF50</color>
+
+    <color name="glass_background">#80333333</color>
+    <color name="glass_stroke">#40FFFFFF</color>
+
+    <color name="text_title">#FFFFFF</color> <color name="text_body">#E0E0E0</color>  <color name="text_dark">#212121</color>
+
+    <color name="text_gray">#888888</color>
+
+    <color name="bg_gray">#333333</color>
+
+</resources>
