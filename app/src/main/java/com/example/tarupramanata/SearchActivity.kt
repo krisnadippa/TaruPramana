@@ -171,8 +171,8 @@ class SearchActivity : AppCompatActivity() {
                     Article(
                         title = "${t.namaTanaman}$latinSuffix",
                         category = "Tanaman",
-                        snippet = t.deskripsiTanaman?.take(50) + "..." ?: "",
-                        content = t.deskripsiTanaman ?: "",
+                        snippet = t.deskripsiTanaman ?: "",
+                        content = t.deskripsiLengkap ?: t.deskripsiTanaman ?: "",
                         date = formatSupabaseDate(t.createdAt),
                         isTrending = t.isTrending ?: false,
                         bagian = bagianStr,
