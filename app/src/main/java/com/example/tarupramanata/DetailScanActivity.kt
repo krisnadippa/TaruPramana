@@ -119,6 +119,7 @@ class DetailScanActivity : AppCompatActivity() {
                 intent.putExtra("EXTRA_IMAGE_URL", article.imageUrl)
                 intent.putExtra("EXTRA_TYPE", article.bagian) // <<< SINKRONISASI: pakai bagian
                 intent.putExtra("EXTRA_AUTHOR", article.author)
+                intent.putExtra("EXTRA_VIDEO_URL", article.videoUrl)
                 startActivity(intent)
             }
         }
@@ -249,6 +250,7 @@ class DetailScanActivity : AppCompatActivity() {
                         tags = tagsStr,
                         caraPengolahan = "",
                         caraPenggunaan = "",
+                        videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
                         imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
                     )

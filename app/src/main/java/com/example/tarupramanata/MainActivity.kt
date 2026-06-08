@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                 // <<< SINKRONISASI: Kirim Bagian Tanaman >>>
                 intent.putExtra("EXTRA_TYPE", article.bagian)
                 intent.putExtra("EXTRA_AUTHOR", article.author)
+                intent.putExtra("EXTRA_VIDEO_URL", article.videoUrl)
 
                 startActivity(intent)
             }
@@ -178,6 +179,7 @@ class MainActivity : AppCompatActivity() {
                         tags = tagsStr,
                         caraPengolahan = "",
                         caraPenggunaan = "",
+                        videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
                         imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
                     )

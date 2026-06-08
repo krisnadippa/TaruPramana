@@ -91,12 +91,14 @@ class DetailResepActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
     }
 
-    private fun renderPenyakitDropdown(tagsString: String, layoutKontenPenyakit: LinearLayout) {
+    private fun renderPenyakitDropdown(tagsString: String, layoutKontenPenyakit: LinearLayout, allArticles: List<Article>) {
         layoutKontenPenyakit.removeAllViews()
         if (tagsString.isNotEmpty()) {
             val tags = tagsString.split(",").map { it.trim() }
             for (tag in tags) {
                 if (tag.isEmpty() || tag.equals("Umum", ignoreCase = true)) continue
+
+                val penyakitArticle = allArticles.find { it.category.equals("Penyakit", ignoreCase = true) && it.title.equals(tag, ignoreCase = true) }
 
                 val itemBox = LinearLayout(this).apply {
                     orientation = LinearLayout.HORIZONTAL
@@ -113,9 +115,21 @@ class DetailResepActivity : AppCompatActivity() {
                     layoutParams = params
 
                     setOnClickListener {
-                        val searchIntent = Intent(this@DetailResepActivity, SearchActivity::class.java)
-                        searchIntent.putExtra("TARGET_FILTER", tag)
-                        startActivity(searchIntent)
+                        if (penyakitArticle != null) {
+                            val intent = Intent(this@DetailResepActivity, DetailArtikelActivity::class.java).apply {
+                                putExtra("EXTRA_TITLE", penyakitArticle.title)
+                                putExtra("EXTRA_CATEGORY", penyakitArticle.category)
+                                putExtra("EXTRA_DATE", penyakitArticle.date)
+                                putExtra("EXTRA_CONTENT", penyakitArticle.content)
+                                putExtra("EXTRA_IMAGE_URL", penyakitArticle.imageUrl)
+                                putExtra("EXTRA_AUTHOR", penyakitArticle.author)
+                            }
+                            startActivity(intent)
+                        } else {
+                            val searchIntent = Intent(this@DetailResepActivity, SearchActivity::class.java)
+                            searchIntent.putExtra("TARGET_FILTER", tag)
+                            startActivity(searchIntent)
+                        }
                     }
                 }
 
@@ -127,7 +141,7 @@ class DetailResepActivity : AppCompatActivity() {
                 }
 
                 val tvActionCari = TextView(this).apply {
-                    text = "Cari \u276F"
+                    text = if (penyakitArticle != null) "Lihat \u276F" else "Cari \u276F"
                     setTextColor(Color.parseColor("#F57C00"))
                     textSize = 12f
                     layoutParams = LinearLayout.LayoutParams(
@@ -338,9 +352,11 @@ class DetailResepActivity : AppCompatActivity() {
             try {
                 val tanamanResult = repository.getDaftarTanamanDetail()
                 val resepResult = repository.getDaftarResepDetail()
+                val penyakitResult = repository.getDaftarPenyakitDetail()
 
                 val listTanaman = tanamanResult.getOrNull() ?: emptyList()
                 val listResep = resepResult.getOrNull() ?: emptyList()
+                val listPenyakit = penyakitResult.getOrNull() ?: emptyList()
 
                 val mappedTanaman = listTanaman.map { t ->
                     val bagianStr = t.bagianList.joinToString(", ") { it.namaBagian }
@@ -359,6 +375,7 @@ class DetailResepActivity : AppCompatActivity() {
                         tags = tagsStr,
                         caraPengolahan = "",
                         caraPenggunaan = "",
+                        videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
                         imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
                     )
@@ -393,7 +410,25 @@ class DetailResepActivity : AppCompatActivity() {
                     )
                 }
 
-                allArticles = mappedTanaman + mappedResep
+                val mappedPenyakit = listPenyakit.map { p ->
+                    Article(
+                        title = p.namaPenyakit,
+                        category = "Penyakit",
+                        snippet = p.deskripsiPenyakit?.take(50) + "..." ?: "",
+                        content = p.deskripsiPenyakit ?: "",
+                        date = formatSupabaseDate(p.createdAt),
+                        isTrending = p.isTrending ?: false,
+                        bagian = "",
+                        bahan = "",
+                        tags = p.namaPenyakit,
+                        caraPengolahan = "",
+                        caraPenggunaan = "",
+                        author = p.createdBy ?: "Admin",
+                        imageUrl = getSupabaseImageUrl("penyakit", p.gambarPenyakit)
+                    )
+                }
+
+                allArticles = mappedTanaman + mappedResep + mappedPenyakit
                 val currentArticle = allArticles.find { it.title.equals(title, ignoreCase = true) }
 
                 val category = currentArticle?.category ?: intent.getStringExtra("EXTRA_CATEGORY")
@@ -422,7 +457,7 @@ class DetailResepActivity : AppCompatActivity() {
                     Glide.with(this@DetailResepActivity).load(imageUrl).into(imgDetail)
                 }
 
-                renderPenyakitDropdown(tagsString, layoutKontenPenyakit)
+                renderPenyakitDropdown(tagsString, layoutKontenPenyakit, allArticles)
                 renderIngredients(ingredientsString, containerIngredients)
                 renderCaraPenggunaan(caraPenggunaanString, containerCaraPenggunaan, tvCaraPenggunaan)
                 renderCaraPengolahan(caraPengolahanString, containerCaraPengolahan, tvCaraPengolahan)

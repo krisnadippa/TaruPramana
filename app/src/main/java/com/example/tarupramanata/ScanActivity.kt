@@ -180,7 +180,7 @@ class ScanActivity : AppCompatActivity() {
             val confidencePercent =
                 NumberFormat.getPercentInstance().format(confidence.toDouble())
 
-            val isLowAccuracy = confidence < 0.90f
+            val isLowAccuracy = confidence < 0.80f
             if (isLowAccuracy) {
                 plantName = "Tidak Dikenali"
                 tvInstruction.text = "Hasil Kurang Akurat"

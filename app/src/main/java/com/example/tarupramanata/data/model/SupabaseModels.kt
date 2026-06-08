@@ -13,6 +13,7 @@ data class Tanaman(
     @SerialName("habitat") val habitat: String? = null,
     @SerialName("gambar_tanaman") val gambarTanaman: String? = null,
     @SerialName("is_trending") val isTrending: Boolean? = false,
+    @SerialName("video_url") val videoUrl: String? = null,
     @SerialName("created_at") val createdAt: String? = null,
     @SerialName("created_by") val createdBy: String? = null
 )
@@ -84,6 +85,7 @@ data class DetailTanamanResponse(
     @SerialName("habitat") val habitat: String? = null,
     @SerialName("gambar_tanaman") val gambarTanaman: String? = null,
     @SerialName("is_trending") val isTrending: Boolean? = false,
+    @SerialName("video_url") val videoUrl: String? = null,
     
     // Nested Pivot: tanaman -> pivot_tanaman_penyakit -> penyakit
     @SerialName("pivot_tanaman_penyakit") val listPenyakitPivot: List<PenyakitPivot>? = null,

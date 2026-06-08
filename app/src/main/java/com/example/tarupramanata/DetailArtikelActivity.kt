@@ -2,11 +2,13 @@ package com.example.tarupramanata
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -164,6 +166,7 @@ class DetailArtikelActivity : AppCompatActivity() {
                         tags = tagsStr,
                         caraPengolahan = "",
                         caraPenggunaan = "",
+                        videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
                         imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
                     )
@@ -246,6 +249,30 @@ class DetailArtikelActivity : AppCompatActivity() {
 
                 // Ekstrak dropdown filter
                 refreshAllDropdowns()
+
+                // --- LOGIKA TAMPILKAN LINK VIDEO ---
+                val currentArticle = allArticles.find { it.title.equals(currentTitle, ignoreCase = true) }
+                val videoUrlString = currentArticle?.videoUrl ?: intent.getStringExtra("EXTRA_VIDEO_URL") ?: ""
+
+                val tvVideoTitle = findViewById<TextView>(R.id.tvVideoTitle)
+                val containerVideo = findViewById<LinearLayout>(R.id.containerVideo)
+
+                if (videoUrlString.isNotEmpty()) {
+                    tvVideoTitle.visibility = View.VISIBLE
+                    containerVideo.visibility = View.VISIBLE
+
+                    containerVideo.setOnClickListener {
+                        try {
+                            val intentVideo = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrlString))
+                            startActivity(intentVideo)
+                        } catch (e: Exception) {
+                            Toast.makeText(this@DetailArtikelActivity, "Tidak ada aplikasi untuk membuka link ini.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } else {
+                    tvVideoTitle.visibility = View.GONE
+                    containerVideo.visibility = View.GONE
+                }
 
             } catch (e: Exception) {
                 android.util.Log.e("DetailArtikel", "Error memuat data dari Supabase", e)
