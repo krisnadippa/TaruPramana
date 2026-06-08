@@ -106,6 +106,19 @@ class DetailArtikelActivity : AppCompatActivity() {
             Glide.with(this).load(imageUrl).into(imgDetail)
         }
 
+        // --- HIDE DROPDOWNS UNTUK PENYAKIT ---
+        if (category == "Penyakit") {
+            btnDropdownBagian.visibility = View.GONE
+            btnDropdownPenyakit.visibility = View.GONE
+            btnDropdownPengolahan.visibility = View.GONE
+            btnDropdownPenggunaan.visibility = View.GONE
+            
+            layoutKontenBagian.visibility = View.GONE
+            layoutKontenPenyakit.visibility = View.GONE
+            layoutKontenPengolahan.visibility = View.GONE
+            layoutKontenPenggunaan.visibility = View.GONE
+        }
+
         // --- 3. LOAD DATA DARI SUPABASE ---
         loadDataFromSupabase()
 
@@ -128,8 +141,11 @@ class DetailArtikelActivity : AppCompatActivity() {
                 val tanamanResult = repository.getDaftarTanamanDetail()
                 val resepResult = repository.getDaftarResepDetail()
 
+                val penyakitResult = repository.getDaftarPenyakitDetail()
+
                 val listTanaman = tanamanResult.getOrNull() ?: emptyList()
                 val listResep = resepResult.getOrNull() ?: emptyList()
+                val listPenyakit = penyakitResult.getOrNull() ?: emptyList()
 
                 val mappedTanaman = listTanaman.map { t ->
                     val bagianStr = t.bagianList.joinToString(", ") { it.namaBagian }
@@ -150,6 +166,24 @@ class DetailArtikelActivity : AppCompatActivity() {
                         caraPenggunaan = "",
                         author = t.createdBy ?: "Admin",
                         imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
+                    )
+                }
+
+                val mappedPenyakit = listPenyakit.map { p ->
+                    Article(
+                        title = p.namaPenyakit,
+                        category = "Penyakit",
+                        snippet = p.deskripsiPenyakit?.take(50) + "..." ?: "",
+                        content = p.deskripsiPenyakit ?: "",
+                        date = formatSupabaseDate(p.createdAt),
+                        isTrending = p.isTrending ?: false,
+                        bagian = "",
+                        bahan = "",
+                        tags = p.namaPenyakit,
+                        caraPengolahan = "",
+                        caraPenggunaan = "",
+                        author = p.createdBy ?: "Admin",
+                        imageUrl = getSupabaseImageUrl("penyakit", p.gambarPenyakit)
                     )
                 }
 
@@ -176,7 +210,7 @@ class DetailArtikelActivity : AppCompatActivity() {
                     )
                 }
 
-                allArticles = mappedTanaman + mappedResep
+                allArticles = mappedTanaman + mappedResep + mappedPenyakit
 
                 // Setelah data dimuat, jalankan logika untuk menampilkan resep terkait
                 val currentTitle = intent.getStringExtra("EXTRA_TITLE") ?: ""

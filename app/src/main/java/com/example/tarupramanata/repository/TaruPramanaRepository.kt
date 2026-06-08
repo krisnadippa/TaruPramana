@@ -120,4 +120,21 @@ class TaruPramanaRepository {
             Result.failure(e)
         }
     }
+    // G. getDaftarPenyakitDetail()
+    suspend fun getDaftarPenyakitDetail(): Result<List<DetailPenyakitResponse>> = withContext(Dispatchers.IO) {
+        try {
+            val selectColumns = """
+                *,
+                pivot_resep_penyakit(resep(*)),
+                pivot_tanaman_penyakit(tanaman(*))
+            """.trimIndent()
+
+            val response = postgrest["penyakit"]
+                .select(columns = Columns.raw(selectColumns))
+                .decodeList<DetailPenyakitResponse>()
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

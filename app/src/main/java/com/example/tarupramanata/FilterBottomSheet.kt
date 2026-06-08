@@ -15,6 +15,7 @@ class FilterBottomSheet(
     // CheckBox Kategori Artikel (Baru)
     private lateinit var cbTanaman: CheckBox
     private lateinit var cbResep: CheckBox
+    private lateinit var cbPenyakit: CheckBox
 
     // CheckBox Bagian Tanaman (Lama)
     private lateinit var cbDaun: CheckBox
@@ -41,6 +42,7 @@ class FilterBottomSheet(
         // 1. Init Views (Hubungkan dengan ID di XML)
         cbTanaman = view.findViewById(R.id.cbKategoriTanaman)
         cbResep = view.findViewById(R.id.cbKategoriResep)
+        cbPenyakit = view.findViewById(R.id.cbKategoriPenyakit)
 
         cbDaun = view.findViewById(R.id.cbDaun)
         cbBatang = view.findViewById(R.id.cbBatang)
@@ -56,6 +58,7 @@ class FilterBottomSheet(
             // Uncheck semua checkbox
             cbTanaman.isChecked = false
             cbResep.isChecked = false
+            cbPenyakit.isChecked = false
             cbDaun.isChecked = false
             cbBatang.isChecked = false
             cbBunga.isChecked = false
@@ -74,6 +77,7 @@ class FilterBottomSheet(
             // Cek Kategori Artikel
             if (cbTanaman.isChecked) selectedFilters.add("Tanaman")
             if (cbResep.isChecked) selectedFilters.add("Resep")
+            if (cbPenyakit.isChecked) selectedFilters.add("Penyakit")
 
             // Cek Bagian Tanaman
             if (cbDaun.isChecked) selectedFilters.add("Daun")

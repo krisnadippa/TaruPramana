@@ -160,8 +160,11 @@ class SearchActivity : AppCompatActivity() {
                 val tanamanResult = repository.getDaftarTanamanDetail()
                 val resepResult = repository.getDaftarResepDetail()
 
+                val penyakitResult = repository.getDaftarPenyakitDetail()
+
                 val listTanaman = tanamanResult.getOrNull() ?: emptyList()
                 val listResep = resepResult.getOrNull() ?: emptyList()
+                val listPenyakit = penyakitResult.getOrNull() ?: emptyList()
 
                 val mappedTanaman = listTanaman.map { t ->
                     val bagianStr = t.bagianList.joinToString(", ") { it.namaBagian }
@@ -182,6 +185,24 @@ class SearchActivity : AppCompatActivity() {
                         caraPenggunaan = "",
                         author = t.createdBy ?: "Admin",
                         imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
+                    )
+                }
+
+                val mappedPenyakit = listPenyakit.map { p ->
+                    Article(
+                        title = p.namaPenyakit,
+                        category = "Penyakit",
+                        snippet = p.deskripsiPenyakit?.take(50) + "..." ?: "",
+                        content = p.deskripsiPenyakit ?: "",
+                        date = formatSupabaseDate(p.createdAt),
+                        isTrending = p.isTrending ?: false,
+                        bagian = "",
+                        bahan = "",
+                        tags = p.namaPenyakit,
+                        caraPengolahan = "",
+                        caraPenggunaan = "",
+                        author = p.createdBy ?: "Admin",
+                        imageUrl = getSupabaseImageUrl("penyakit", p.gambarPenyakit)
                     )
                 }
 
@@ -214,7 +235,7 @@ class SearchActivity : AppCompatActivity() {
                     )
                 }
 
-                allArticles = mappedTanaman + mappedResep
+                allArticles = mappedTanaman + mappedResep + mappedPenyakit
 
                 // Cek Intent Filter setelah data dimuat
                 val targetFilterRaw = intent.getStringExtra("TARGET_FILTER")

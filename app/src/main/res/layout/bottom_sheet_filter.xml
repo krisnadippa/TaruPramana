@@ -53,6 +53,15 @@
             android:textColor="@color/black"
             android:buttonTint="@color/nature_accent"
             android:paddingStart="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbKategoriPenyakit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Penyakit"
+            android:textColor="@color/black"
+            android:buttonTint="@color/nature_accent"
+            android:paddingStart="12dp"/>
     </LinearLayout>
 
     <TextView

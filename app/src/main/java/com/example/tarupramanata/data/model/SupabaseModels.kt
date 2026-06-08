@@ -21,7 +21,11 @@ data class Tanaman(
 data class Penyakit(
     @SerialName("id_penyakit") val idPenyakit: Int,
     @SerialName("nama_penyakit") val namaPenyakit: String,
-    @SerialName("deskripsi_penyakit") val deskripsiPenyakit: String? = null
+    @SerialName("deskripsi_penyakit") val deskripsiPenyakit: String? = null,
+    @SerialName("gambar_penyakit") val gambarPenyakit: String? = null,
+    @SerialName("is_trending") val isTrending: Boolean? = false,
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("created_by") val createdBy: String? = null
 )
 
 @Serializable
@@ -131,5 +135,33 @@ data class DetailResepResponse(
     data class TanamanPivot(@SerialName("tanaman") val tanaman: Tanaman? = null)
     
     val penyakitList: List<Penyakit> get() = listPenyakitPivot?.mapNotNull { it.penyakit } ?: emptyList()
+    val tanamanList: List<Tanaman> get() = listTanamanPivot?.mapNotNull { it.tanaman } ?: emptyList()
+}
+
+// --- E. Detail Penyakit (Join Resep & Tanaman) ---
+@Serializable
+data class DetailPenyakitResponse(
+    @SerialName("id_penyakit") val idPenyakit: Int,
+    @SerialName("nama_penyakit") val namaPenyakit: String,
+    @SerialName("deskripsi_penyakit") val deskripsiPenyakit: String? = null,
+    @SerialName("gambar_penyakit") val gambarPenyakit: String? = null,
+    @SerialName("is_trending") val isTrending: Boolean? = false,
+    
+    // Nested Pivot: penyakit -> pivot_resep_penyakit -> resep
+    @SerialName("pivot_resep_penyakit") val listResepPivot: List<ResepPivot>? = null,
+    
+    // Nested Pivot: penyakit -> pivot_tanaman_penyakit -> tanaman
+    @SerialName("pivot_tanaman_penyakit") val listTanamanPivot: List<TanamanPivot>? = null,
+
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("created_by") val createdBy: String? = null
+) {
+    @Serializable
+    data class ResepPivot(@SerialName("resep") val resep: Resep? = null)
+    
+    @Serializable
+    data class TanamanPivot(@SerialName("tanaman") val tanaman: Tanaman? = null)
+    
+    val resepList: List<Resep> get() = listResepPivot?.mapNotNull { it.resep } ?: emptyList()
     val tanamanList: List<Tanaman> get() = listTanamanPivot?.mapNotNull { it.tanaman } ?: emptyList()
 }

@@ -28,6 +28,7 @@ import kotlinx.coroutines.withContext
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.example.tarupramanata.data.model.Tanaman
 import com.example.tarupramanata.data.model.Resep
+import com.example.tarupramanata.data.model.DetailPenyakitResponse
 
 class MainActivity : AppCompatActivity() {
 
@@ -136,9 +137,10 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val startTime = System.currentTimeMillis()
-                // Ambil Tanaman dan Resep secara paralel (Gunakan Detail agar tag dan bagian terambil)
+                // Ambil Tanaman, Resep, dan Penyakit secara paralel (Gunakan Detail agar tag dan bagian terambil)
                 val tanamanResult = repository.getDaftarTanamanDetail()
                 val resepResult = repository.getDaftarResepDetail()
+                val penyakitResult = repository.getDaftarPenyakitDetail()
                  val apiTime = System.currentTimeMillis() - startTime
                  val runtime = Runtime.getRuntime()
                  val ramUsed = (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024)
@@ -150,9 +152,13 @@ class MainActivity : AppCompatActivity() {
                 resepResult.onFailure {
                     Log.e("SupabaseError", "Gagal memuat Resep: ${it.message}", it)
                 }
+                penyakitResult.onFailure {
+                    Log.e("SupabaseError", "Gagal memuat Penyakit: ${it.message}", it)
+                }
 
                 val listTanaman = tanamanResult.getOrNull() ?: emptyList()
                 val listResep = resepResult.getOrNull() ?: emptyList()
+                val listPenyakit = penyakitResult.getOrNull() ?: emptyList()
 
                 // Map Tanaman ke Article
                 val mappedTanaman = listTanaman.map { t ->
@@ -174,6 +180,25 @@ class MainActivity : AppCompatActivity() {
                         caraPenggunaan = "",
                         author = t.createdBy ?: "Admin",
                         imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
+                    )
+                }
+
+                // Map Penyakit ke Article
+                val mappedPenyakit = listPenyakit.map { p ->
+                    Article(
+                        title = p.namaPenyakit,
+                        category = "Penyakit",
+                        snippet = p.deskripsiPenyakit?.take(50) + "..." ?: "",
+                        content = p.deskripsiPenyakit ?: "",
+                        date = formatSupabaseDate(p.createdAt),
+                        isTrending = p.isTrending ?: false,
+                        bagian = "",
+                        bahan = "",
+                        tags = p.namaPenyakit,
+                        caraPengolahan = "",
+                        caraPenggunaan = "",
+                        author = p.createdBy ?: "Admin",
+                        imageUrl = getSupabaseImageUrl("penyakit", p.gambarPenyakit)
                     )
                 }
 
@@ -207,8 +232,8 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
 
-                // Gabungkan dan acak urutannya agar tanaman dan resep bercampur
-                val allArticles = (mappedTanaman + mappedResep).shuffled()
+                // Gabungkan dan acak urutannya agar tanaman, resep dan penyakit bercampur
+                val allArticles = (mappedTanaman + mappedResep + mappedPenyakit).shuffled()
                 dataArtikel = allArticles
 
                 // Perbarui UI di Main Thread
