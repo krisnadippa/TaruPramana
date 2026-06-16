@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BananaDetection"
+        android:theme="@style/Theme.TaruPramana"
         tools:targetApi="31">
 
         <provider
@@ -39,7 +39,7 @@
             android:name="com.example.tarupramanata.StartedActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection">
+            android:theme="@style/Theme.TaruPramana">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -50,52 +50,52 @@
             android:name="com.example.tarupramanata.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection"
+            android:theme="@style/Theme.TaruPramana"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name="com.example.tarupramanata.SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection"
+            android:theme="@style/Theme.TaruPramana"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <activity
             android:name="com.example.tarupramanata.ChatbotActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection"
+            android:theme="@style/Theme.TaruPramana"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name="com.example.tarupramanata.ScanActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection" />
+            android:theme="@style/Theme.TaruPramana" />
 
         <activity
             android:name="com.example.tarupramanata.DetailScanActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection" />
+            android:theme="@style/Theme.TaruPramana" />
 
         <activity
             android:name="com.example.tarupramanata.DetailArtikelActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection" />
+            android:theme="@style/Theme.TaruPramana" />
 
         <activity
             android:name="com.example.tarupramanata.DetailResepActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection" />
+            android:theme="@style/Theme.TaruPramana" />
 
         <activity
             android:name="com.example.tarupramanata.TutorialActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BananaDetection" />
+            android:theme="@style/Theme.TaruPramana" />
 
     </application>
 
