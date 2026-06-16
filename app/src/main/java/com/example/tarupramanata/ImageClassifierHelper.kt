@@ -55,7 +55,7 @@ class ImageClassifierHelper(
         }
 
         if (labels.isEmpty()) {
-            onError("Labels kosong. Periksa file labels.txt di folder assets.")
+            onError("Labels kosong. Periksa file labels1.txt di folder assets.")
             return emptyList()
         }
 
