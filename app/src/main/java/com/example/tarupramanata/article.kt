@@ -34,7 +34,12 @@ data class Article(
     val author: String = "Admin",
 
     // >>> URL GAMBAR REMOTE DARI SUPABASE STORAGE <<<
-    val imageUrl: String = ""
+    val imageUrl: String = "",
+
+    // >>> DETIL NAMA TAMANAN DARI DATABASE <<<
+    val namaLatin: String = "",
+    val namaBali: String = "",
+    val namaInggris: String = ""
 )
 
 fun getSupabaseImageUrl(bucket: String, fileName: String?): String {

@@ -80,6 +80,9 @@ class SearchActivity : AppCompatActivity() {
                 intent.putExtra("EXTRA_TYPE", article.bagian) // <<< SINKRONISASI
                 intent.putExtra("EXTRA_AUTHOR", article.author)
                 intent.putExtra("EXTRA_VIDEO_URL", article.videoUrl)
+                intent.putExtra("EXTRA_NAMA_LATIN", article.namaLatin)
+                intent.putExtra("EXTRA_NAMA_BALI", article.namaBali)
+                intent.putExtra("EXTRA_NAMA_INGGRIS", article.namaInggris)
                 startActivity(intent)
             }
         }
@@ -186,7 +189,10 @@ class SearchActivity : AppCompatActivity() {
                         caraPenggunaan = "",
                         videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
-                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
+                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman),
+                        namaLatin = t.namaLatin ?: "",
+                        namaBali = t.namaBali ?: "",
+                        namaInggris = t.namaInggris ?: ""
                     )
                 }
 

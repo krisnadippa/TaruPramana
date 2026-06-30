@@ -123,6 +123,117 @@
                     android:src="@drawable/ic_launcher_background"/>
             </androidx.cardview.widget.CardView>
 
+            <HorizontalScrollView
+                android:id="@+id/scrollTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:scrollbars="none"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Tag Latin -->
+                    <LinearLayout
+                        android:id="@+id/wrapperTagLatin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_chip_outline"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:gravity="center_vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Latin: "
+                            android:textColor="#777777"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvTagLatin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#4A6F28"
+                            android:textSize="13sp"
+                            android:textStyle="italic|bold"
+                            tools:text="Musa paradisiaca" />
+                    </LinearLayout>
+
+                    <!-- Tag Inggris -->
+                    <LinearLayout
+                        android:id="@+id/wrapperTagInggris"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_chip_outline"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:gravity="center_vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="English: "
+                            android:textColor="#777777"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvTagInggris"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#1976D2"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            tools:text="Banana" />
+                    </LinearLayout>
+
+                    <!-- Tag Bali -->
+                    <LinearLayout
+                        android:id="@+id/wrapperTagBali"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_chip_outline"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:gravity="center_vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bali: "
+                            android:textColor="#777777"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvTagBali"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#DDA15E"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            tools:text="Biu" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
             <TextView
                 android:id="@+id/tvContent"
                 android:layout_width="match_parent"

@@ -33,6 +33,15 @@ class DetailArtikelActivity : AppCompatActivity() {
 
     private lateinit var tvStatusResep: TextView
 
+    // --- UI TAG COMPONENTS ---
+    private lateinit var scrollTags: View
+    private lateinit var wrapperTagLatin: View
+    private lateinit var tvTagLatin: TextView
+    private lateinit var wrapperTagBali: View
+    private lateinit var tvTagBali: TextView
+    private lateinit var wrapperTagInggris: View
+    private lateinit var tvTagInggris: TextView
+
     // --- VARIABEL CONTAINER DROPDOWN ---
     private lateinit var layoutKontenBagian: LinearLayout
     private lateinit var layoutKontenPenyakit: LinearLayout
@@ -66,6 +75,15 @@ class DetailArtikelActivity : AppCompatActivity() {
         tvStatusResep = findViewById(R.id.tvStatusResep)
         val tvAuthorName = findViewById<TextView>(R.id.tvAuthorName)
 
+        // Init Tag Views
+        scrollTags = findViewById(R.id.scrollTags)
+        wrapperTagLatin = findViewById(R.id.wrapperTagLatin)
+        tvTagLatin = findViewById(R.id.tvTagLatin)
+        wrapperTagBali = findViewById(R.id.wrapperTagBali)
+        tvTagBali = findViewById(R.id.tvTagBali)
+        wrapperTagInggris = findViewById(R.id.wrapperTagInggris)
+        tvTagInggris = findViewById(R.id.tvTagInggris)
+
         // Init Header Dropdown & Judul
         val btnDropdownBagian = findViewById<LinearLayout>(R.id.btnDropdownBagian)
         val btnDropdownPenyakit = findViewById<LinearLayout>(R.id.btnDropdownPenyakit)
@@ -91,14 +109,18 @@ class DetailArtikelActivity : AppCompatActivity() {
 
         // --- 2. AMBIL DATA DARI INTENT (ARTIKEL SAAT INI) ---
         val currentTitle = intent.getStringExtra("EXTRA_TITLE") ?: ""
-        val category = intent.getStringExtra("EXTRA_CATEGORY")
+        val category = intent.getStringExtra("EXTRA_CATEGORY") ?: "Tips"
         val date = intent.getStringExtra("EXTRA_DATE")
         val content = intent.getStringExtra("EXTRA_CONTENT")
         val imageUrl = intent.getStringExtra("EXTRA_IMAGE_URL")
         val author = intent.getStringExtra("EXTRA_AUTHOR") ?: "Admin"
 
+        val namaLatinIntent = intent.getStringExtra("EXTRA_NAMA_LATIN")
+        val namaBaliIntent = intent.getStringExtra("EXTRA_NAMA_BALI")
+        val namaInggrisIntent = intent.getStringExtra("EXTRA_NAMA_INGGRIS")
+
         tvTitle.text = currentTitle
-        tvCategory.text = category ?: "Tips"
+        tvCategory.text = category
         tvDate.text = date ?: "-"
         tvAuthorName.text = author
         tvContent.text = content ?: "Isi artikel tidak tersedia."
@@ -106,6 +128,13 @@ class DetailArtikelActivity : AppCompatActivity() {
         imgDetail.setImageDrawable(null)
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(this).load(imageUrl).into(imgDetail)
+        }
+
+        // Tampilkan tag jika kategori adalah Tanaman
+        if (category.equals("Tanaman", ignoreCase = true)) {
+            bindTags(namaLatinIntent, namaBaliIntent, namaInggrisIntent)
+        } else {
+            scrollTags.visibility = View.GONE
         }
 
         // --- HIDE DROPDOWNS UNTUK PENYAKIT ---
@@ -168,7 +197,10 @@ class DetailArtikelActivity : AppCompatActivity() {
                         caraPenggunaan = "",
                         videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
-                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
+                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman),
+                        namaLatin = t.namaLatin ?: "",
+                        namaBali = t.namaBali ?: "",
+                        namaInggris = t.namaInggris ?: ""
                     )
                 }
 
@@ -252,6 +284,10 @@ class DetailArtikelActivity : AppCompatActivity() {
 
                 // --- LOGIKA TAMPILKAN LINK VIDEO ---
                 val currentArticle = allArticles.find { it.title.equals(currentTitle, ignoreCase = true) }
+                val currentCategory = currentArticle?.category ?: intent.getStringExtra("EXTRA_CATEGORY") ?: ""
+                if (currentArticle != null && currentCategory.equals("Tanaman", ignoreCase = true)) {
+                    bindTags(currentArticle.namaLatin, currentArticle.namaBali, currentArticle.namaInggris)
+                }
                 val videoUrlString = currentArticle?.videoUrl ?: intent.getStringExtra("EXTRA_VIDEO_URL") ?: ""
 
                 val tvVideoTitle = findViewById<TextView>(R.id.tvVideoTitle)
@@ -486,6 +522,40 @@ class DetailArtikelActivity : AppCompatActivity() {
         } else {
             tvStatusResep.text = "Resep Herbal Terkait (${filteredResep.size})"
             tvStatusResep.setTextColor(Color.BLACK)
+        }
+    }
+
+    private fun bindTags(latin: String?, bali: String?, inggris: String?) {
+        var hasAnyTag = false
+
+        if (!latin.isNullOrBlank()) {
+            wrapperTagLatin.visibility = View.VISIBLE
+            tvTagLatin.text = latin
+            hasAnyTag = true
+        } else {
+            wrapperTagLatin.visibility = View.GONE
+        }
+
+        if (!bali.isNullOrBlank()) {
+            wrapperTagBali.visibility = View.VISIBLE
+            tvTagBali.text = bali
+            hasAnyTag = true
+        } else {
+            wrapperTagBali.visibility = View.GONE
+        }
+
+        if (!inggris.isNullOrBlank()) {
+            wrapperTagInggris.visibility = View.VISIBLE
+            tvTagInggris.text = inggris
+            hasAnyTag = true
+        } else {
+            wrapperTagInggris.visibility = View.GONE
+        }
+
+        if (hasAnyTag) {
+            scrollTags.visibility = View.VISIBLE
+        } else {
+            scrollTags.visibility = View.GONE
         }
     }
 }

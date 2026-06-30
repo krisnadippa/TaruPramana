@@ -377,7 +377,10 @@ class DetailResepActivity : AppCompatActivity() {
                         caraPenggunaan = "",
                         videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
-                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
+                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman),
+                        namaLatin = t.namaLatin ?: "",
+                        namaBali = t.namaBali ?: "",
+                        namaInggris = t.namaInggris ?: ""
                     )
                 }
 

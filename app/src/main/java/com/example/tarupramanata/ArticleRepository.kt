@@ -67,7 +67,11 @@ object ArticleRepository {
                     // >>> BACA LINK VIDEO DARI JSON <<<
                     videoUrl = obj.optString("video_url", ""),
 
-                    tutorialSteps = tutorialList
+                    tutorialSteps = tutorialList,
+
+                    namaLatin = obj.optString("nama_latin", ""),
+                    namaBali = obj.optString("nama_bali", ""),
+                    namaInggris = obj.optString("nama_inggris", "")
                 )
                 articleList.add(article)
             }

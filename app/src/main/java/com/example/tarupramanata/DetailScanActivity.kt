@@ -120,6 +120,9 @@ class DetailScanActivity : AppCompatActivity() {
                 intent.putExtra("EXTRA_TYPE", article.bagian) // <<< SINKRONISASI: pakai bagian
                 intent.putExtra("EXTRA_AUTHOR", article.author)
                 intent.putExtra("EXTRA_VIDEO_URL", article.videoUrl)
+                intent.putExtra("EXTRA_NAMA_LATIN", article.namaLatin)
+                intent.putExtra("EXTRA_NAMA_BALI", article.namaBali)
+                intent.putExtra("EXTRA_NAMA_INGGRIS", article.namaInggris)
                 startActivity(intent)
             }
         }
@@ -152,22 +155,27 @@ class DetailScanActivity : AppCompatActivity() {
 
     // --- LOGIKA FILTER PINTAR (Per Kata) ---
     private fun loadResepData() {
-        val searchKeywords = detectedName.split(" ").filter { it.length > 3 }
+        val genericTerms = setOf("daun", "biji", "buah", "akar", "batang", "bunga", "umbi", "kulit", "daging", "air", "minyak", "tanaman")
+        val searchKeywords = detectedName.split(" ")
+            .map { it.lowercase().trim() }
+            .filter { it.length > 3 && it !in genericTerms }
 
         val resepList = allArticles.filter { article ->
             val isResep = article.category.equals("Resep", ignoreCase = true)
             var isMatch = false
 
-            // <<< SINKRONISASI: Cek tags dan bahan >>>
+            // 1. Cek kecocokan nama secara penuh
             if (article.title.contains(detectedName, ignoreCase = true) ||
-                article.tags.contains(detectedName, ignoreCase = true) ||
-                article.bahan.contains(detectedName, ignoreCase = true)) {
+                article.bahan.contains(detectedName, ignoreCase = true) ||
+                article.tags.contains(detectedName, ignoreCase = true)) {
                 isMatch = true
-            } else if (searchKeywords.isNotEmpty()) {
+            } 
+            // 2. Cek kecocokan kata kunci spesifik
+            else if (searchKeywords.isNotEmpty()) {
                 val wordMatch = searchKeywords.any { word ->
                     article.title.contains(word, ignoreCase = true) ||
-                            article.tags.contains(word, ignoreCase = true) ||
-                            article.bahan.contains(word, ignoreCase = true)
+                            article.bahan.contains(word, ignoreCase = true) ||
+                            article.tags.contains(word, ignoreCase = true)
                 }
                 if (wordMatch) isMatch = true
             }
@@ -177,22 +185,28 @@ class DetailScanActivity : AppCompatActivity() {
     }
 
     private fun loadTanamanData() {
-        val searchKeywords = detectedName.split(" ").filter { it.length > 3 }
+        val genericTerms = setOf("daun", "biji", "buah", "akar", "batang", "bunga", "umbi", "kulit", "daging", "air", "minyak", "tanaman")
+        val searchKeywords = detectedName.split(" ")
+            .map { it.lowercase().trim() }
+            .filter { it.length > 3 && it !in genericTerms }
 
         val tanamanList = allArticles.filter { article ->
             val isTanaman = article.category.equals("Tanaman", ignoreCase = true)
             var isMatch = false
 
-            // <<< SINKRONISASI: Cek tags dan bagian >>>
-            if (article.title.contains(detectedName, ignoreCase = true) ||
-                article.tags.contains(detectedName, ignoreCase = true) ||
-                article.bagian.contains(detectedName, ignoreCase = true)) {
+            val mainTitle = article.title.split("(").first().trim()
+
+            // 1. Cek kecocokan nama secara penuh
+            if (mainTitle.contains(detectedName, ignoreCase = true) ||
+                detectedName.contains(mainTitle, ignoreCase = true) ||
+                article.tags.contains(detectedName, ignoreCase = true)) {
                 isMatch = true
-            } else if (searchKeywords.isNotEmpty()) {
+            } 
+            // 2. Cek kecocokan kata kunci spesifik
+            else if (searchKeywords.isNotEmpty()) {
                 val wordMatch = searchKeywords.any { word ->
-                    article.title.contains(word, ignoreCase = true) ||
-                            article.tags.contains(word, ignoreCase = true) ||
-                            article.bagian.contains(word, ignoreCase = true)
+                    mainTitle.contains(word, ignoreCase = true) ||
+                            article.tags.contains(word, ignoreCase = true)
                 }
                 if (wordMatch) isMatch = true
             }
@@ -252,7 +266,10 @@ class DetailScanActivity : AppCompatActivity() {
                         caraPenggunaan = "",
                         videoUrl = t.videoUrl ?: "",
                         author = t.createdBy ?: "Admin",
-                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman)
+                        imageUrl = getSupabaseImageUrl("tanaman", t.gambarTanaman),
+                        namaLatin = t.namaLatin ?: "",
+                        namaBali = t.namaBali ?: "",
+                        namaInggris = t.namaInggris ?: ""
                     )
                 }
 
